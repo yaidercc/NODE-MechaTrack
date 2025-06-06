@@ -6,11 +6,13 @@ import morgan from "morgan";
 type Paths = {}
 
 export class Server {
+    private app: Express;
+    private paths: Paths;
+    private server!: HttpServer;
+    public port: number;
+
     constructor(
-        private app: Express,
-        private paths: Paths,
-        private server: HttpServer,
-        public port: number
+
     ) {
         this.port = Number(process.env.PORT) || 4400
         this.app = express();
