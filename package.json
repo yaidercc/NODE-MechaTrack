@@ -7,15 +7,18 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon",
     "build": "rimraf ./dist && tsc",
-    "start": "npm run build && node dist/app.js"
+    "start": "npm run build && node dist/app.js",
+    "migrate:latest": "knex --knexfile=./dist/config/database/Knexfile.js migrate:latest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.2",
+    "@types/helmet": "^0.0.48",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.15.24",
     "@types/pg": "^8.15.4",
@@ -33,6 +36,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "helmet": "^8.1.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "knex": "^3.1.0",

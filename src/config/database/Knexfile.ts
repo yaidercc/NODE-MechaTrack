@@ -2,24 +2,31 @@ import { config } from "dotenv";
 import path from "path";
 import { PoolClient } from "pg"
 import { ConnectionPostgres, IDatabaseEnvConfig } from "./interfaces/interfaces";
+import { requiredEnv } from "../../common";
 
 config({ path: path.resolve(__dirname, "../../../.env") })
 
 
 const connection: ConnectionPostgres = {
-    host: process.env.DB_HOST ?? "db",
-    database: process.env.DB_NAME ?? "mechatrack",
-    user: process.env.DB_USER ?? "yaidercc",
-    password: process.env.DB_PASSWORD ?? "yaidercc123",
-    port: Number(process.env.DB_PORT) ?? 4000
+    host: requiredEnv(process.env.DB_HOST, 'DB_HOST'),
+    database: requiredEnv(process.env.DB_NAME, 'DB_NAME'),
+    user: requiredEnv(process.env.DB_USER, 'DB_USER'),
+    password: requiredEnv(process.env.DB_PASSWORD, 'DB_PASSWORD'),
+    port: Number(requiredEnv(process.env.DB_PORT, 'DB_PORT'))
 }
+console.log(connection)
 
 const schema: string = process.env.DB_SCHEMA ?? "public";
 
-const setSchema = (conn: PoolClient, done: (err?: Error) => void): void => {
-    conn.query('SET timezone="UTC";', done)
-    conn.query(`CREATE SCHEMA IF NOT EXISTS ${schema}`, done)
-    conn.query(`SET search_path TO ${schema};`, done)
+const setSchema = async (conn: PoolClient, done: (err?: Error) => void): Promise<void> => {
+    try {
+        await conn.query('SET timezone="UTC";');
+        await conn.query(`CREATE SCHEMA IF NOT EXISTS ${schema};`);
+        await conn.query(`SET search_path TO ${schema};`);
+        done();
+    } catch (err) {
+        done(err as Error);
+    }
 }
 
 export const development: IDatabaseEnvConfig = {
@@ -40,7 +47,7 @@ export const development: IDatabaseEnvConfig = {
 }
 
 export const testing: IDatabaseEnvConfig = {
-    client: "sqltie3",
+    client: "sqlite3",
     connection: {
         fileName: ":memory:"
     },

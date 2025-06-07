@@ -12,6 +12,6 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - mechatrack-data:/var/lib/postgresql/data
 volumes:
-  postgres-data:
+  mechatrack-data:

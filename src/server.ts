@@ -2,12 +2,11 @@ import express, { Express } from "express";
 import { Server as HttpServer } from "http";
 import cors from "cors";
 import morgan from "morgan";
-
-type Paths = {}
+import helmet from "helmet"
 
 export class Server {
     private app: Express;
-    private paths: Paths;
+    private paths;
     private server!: HttpServer;
     public port: number;
 
@@ -17,7 +16,9 @@ export class Server {
         this.port = Number(process.env.PORT) || 4400
         this.app = express();
 
-        this.paths = {};
+        this.paths = {
+            users: "/api/users"
+        };
 
         this.middlewares();
         this.routes();
@@ -28,6 +29,7 @@ export class Server {
         this.app.use(express.json());
         this.app.use(cors());
         this.app.use(morgan("dev"))
+        this.app.use(helmet())
     }
 
     private routes(): void { }
@@ -39,7 +41,7 @@ export class Server {
     }
 
     get appServer(): Express {
-        return this.app;
+        return this.app; 
     }
 
     close(): Promise<void> {
