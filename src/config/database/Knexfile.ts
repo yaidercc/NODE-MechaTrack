@@ -14,7 +14,7 @@ const connection: ConnectionPostgres = {
     password: requiredEnv(process.env.DB_PASSWORD, 'DB_PASSWORD'),
     port: Number(requiredEnv(process.env.DB_PORT, 'DB_PORT'))
 }
-console.log(connection)
+
 
 const schema: string = process.env.DB_SCHEMA ?? "public";
 

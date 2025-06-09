@@ -1,12 +1,14 @@
+import { Knex } from "knex";
 import { PoolClient } from "pg";
 
-export interface IDatabaseEnvConfig {
+export interface IDatabaseEnvConfig{
     client: string;
     pool?: Pool;
     migrations: Migrations;
     useNullAsDefault?: boolean;
     seeds: Seeds;
     connection: ConnectionPostgres | ConnectionSqlite;
+
 }
 
 export interface ConnectionPostgres {

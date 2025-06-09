@@ -8,13 +8,17 @@
     "dev": "nodemon",
     "build": "rimraf ./dist && tsc",
     "start": "npm run build && node dist/app.js",
-    "migrate:latest": "knex --knexfile=./dist/config/database/Knexfile.js migrate:latest"
+    "migrate:latest": "knex --knexfile=./dist/config/database/Knexfile.js migrate:latest",
+    "migrate:seed": "knex --knexfile=./dist/config/database/Knexfile.js seed:run",
+    "migrate:rollback": "knex --knexfile=./dist/config/database/Knexfile.js migrate:rollback --all",
+    "migrate:start": "npm run migrate:latest && npm run migrate:seed"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@types/axios": "^0.9.36",
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.2",
@@ -32,6 +36,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "axios": "^1.9.0",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
