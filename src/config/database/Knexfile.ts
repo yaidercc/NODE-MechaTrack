@@ -1,7 +1,7 @@
 import { config } from "dotenv";
 import path from "path";
 import { PoolClient } from "pg"
-import { ConnectionPostgres, IDatabaseEnvConfig } from "./interfaces/interfaces";
+import { ConnectionPostgres, IDatabaseEnvConfig } from "./interfaces/config.interfaces";
 import { requiredEnv } from "../../common";
 
 config({ path: path.resolve(__dirname, "../../../.env") })

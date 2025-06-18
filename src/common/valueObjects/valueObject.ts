@@ -1,7 +1,7 @@
 export class ValueObject<T> {
     constructor(
-        private value: T,
-        public field: string
+        public field: string,
+        private value: T
     ) {
         Object.freeze(this);
     }

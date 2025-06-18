@@ -1,6 +1,6 @@
-import { IDatabaseEnvConfig } from "@config/database/interfaces/interfaces";
+import { IDatabaseEnvConfig } from "@config/database/interfaces/config.interfaces";
 import knex, { Knex } from "knex";
-import { UpdateAggregate } from "./interfaces/interfaces";
+import { UpdateAggregate } from "./interfaces/infrastructure.interfaces";
 
 export class KnexRepository {
     private connection: Knex;

@@ -1,5 +1,5 @@
 import { HttpStatusCode } from "axios"
-import { ResponseStructure } from "./interfaces/interfaces";
+import { ResponseStructure } from "./interfaces/httpResponses.interfaces";
 
 export class HttpResponses {
     static ok<T>({ data, res, message = "Success" }: ResponseStructure<T>) {
@@ -35,7 +35,6 @@ export class HttpResponses {
     }
     static internalServerError<T>({ res, message = "Unexpected error ocurreed", errors }: ResponseStructure<T>) {
         return res.status(HttpStatusCode.InternalServerError).json({
-            message,
             errors
         })
     }
