@@ -12,6 +12,6 @@ export class ValueObjectEnum<T extends string | number | boolean> extends ValueO
             return;
         }
 
-        Guards.enumValues<T>(value, validValues)
+        Guards.enumValues<T>(field, value, validValues)
     }
 }

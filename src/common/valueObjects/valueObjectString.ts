@@ -11,7 +11,7 @@ export class ValueObjectString extends ValueObject<string>{
         if (!value && !nullable) {
             throw new Error(`${this.field}: the value cannot be null`);
         }
-        Guards.stringType(value)
+        Guards.stringType(field,value)
         return;
     }
 }

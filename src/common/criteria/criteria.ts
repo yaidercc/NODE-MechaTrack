@@ -9,52 +9,52 @@ import { COMPARISION_OPERATORS, FILTER_TYPE } from "./filters/filters.constant";
 
 export class Criteria<T> {
 
-    private filters: Filters<T>[];
-    private order: Order | null;
-    private limit?: number | null;
-    private offset?: number | null;
+    private _filters: Filters<T>[];
+    private _order: Order | null;
+    private _limit?: number | null;
+    private _offset?: number | null;
 
     constructor(
         private criteriaParams: QueryParams<T>
     ) {
-        this.filters = !criteriaParams.filters ? [] : criteriaParams.filters.map((filter) => validateFilter(filter));
-        this.order = !criteriaParams.order ? null : validateOrder(criteriaParams.order);
-        this.offset = !criteriaParams.offset ? null : new ValueObjectInt("offset", criteriaParams.offset).getValue;
-        this.limit = !criteriaParams.limit ? null : new ValueObjectInt("limit", criteriaParams.limit).getValue;
+        this._filters = !criteriaParams.filters ? [] : criteriaParams.filters.map((filter) => validateFilter(filter));
+        this._order = !criteriaParams.order ? null : validateOrder(criteriaParams.order);
+        this._offset = !criteriaParams.offset ? null : new ValueObjectInt("offset", criteriaParams.offset).value;
+        this._limit = !criteriaParams.limit ? null : new ValueObjectInt("limit", criteriaParams.limit).value;
     }
 
     get Limit() {
-        return this.limit ?? 0;
+        return this._limit ?? 0;
     }
 
     get Offset() {
-        return this.offset ?? 0;
+        return this._offset ?? 0;
     }
 
     get Order() {
-        return this.order ? {
-            field: this.order.field,
-            direction: this.order.direction
+        return this._order ? {
+            field: this._order.field,
+            direction: this._order.direction
         } : {}
     }
 
 
     convertToKnex(knexQuery: Knex, table = null) {
 
-        this.filters?.forEach((filter) => this.convertFiltersToKnex(knexQuery, filter))
+        this._filters?.forEach((filter) => this.convertFiltersToKnex(knexQuery, filter))
 
 
-        if (this.limit) {
-            knexQuery.limit(this.limit);
+        if (this._limit) {
+            knexQuery.limit(this._limit);
         }
 
 
-        if (this.offset) {
-            knexQuery.offset(this.offset);
+        if (this._offset) {
+            knexQuery.offset(this._offset);
         }
-        if (this.order) {
-            if (table) knexQuery.orderBy(`${table}.${this.order.field}`, this.order.direction);
-            else knexQuery.orderBy(this.order.field, this.order.direction);
+        if (this._order) {
+            if (table) knexQuery.orderBy(`${table}.${this._order.field}`, this._order.direction);
+            else knexQuery.orderBy(this._order.field, this._order.direction);
         }
 
     }

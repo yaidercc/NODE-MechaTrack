@@ -1,12 +1,12 @@
 export class ValueObject<T> {
     constructor(
         public field: string,
-        private value: T
+        private _value: T
     ) {
         Object.freeze(this);
     }
 
-    get getValue() {
-        return this.value;
+    get value() {
+        return this._value;
     }
 }

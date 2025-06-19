@@ -1,3 +1,4 @@
 export { requiredEnv } from "./helpers/env";
-export { ValueObject } from "./valueObjects/valueObject"
-export { Guards } from "./valueObjects/guards"
+export { ValueObject, ValueObjectEnum, ValueObjectId, ValueObjectTimeStamp, ValueObjectString } from "./valueObjects";
+export { Guards } from "./valueObjects/guards";
+export { AggregateRoot } from "./domain/aggregateRoot"
