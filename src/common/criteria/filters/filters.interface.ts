@@ -1,7 +1,7 @@
-export interface Filters<T> {
+export interface Filters {
     field: string;
     operator: string;
-    value: T;
+    value: number | string | boolean | string[];
     type: string
 }
 

@@ -1,4 +1,4 @@
-import { Filters } from "@common/interfaces";
+import { Filters } from "./filters/filters.interface";
 import { QueryParams } from "./interfaces/criteria.interfaces";
 import { ValueObjectInt } from "@common/valueObjects/valueObjectInt";
 import { validateFilter } from "@common/criteria/filters/filters.utils";
@@ -7,15 +7,15 @@ import { Order } from "./order/order.interface";
 import { Knex } from "knex";
 import { COMPARISION_OPERATORS, FILTER_TYPE } from "./filters/filters.constant";
 
-export class Criteria<T> {
+export class Criteria {
 
-    private _filters: Filters<T>[];
+    private _filters: Filters[] | null;
     private _order: Order | null;
     private _limit?: number | null;
     private _offset?: number | null;
 
     constructor(
-        private criteriaParams: QueryParams<T>
+        private criteriaParams: QueryParams
     ) {
         this._filters = !criteriaParams.filters ? [] : criteriaParams.filters.map((filter) => validateFilter(filter));
         this._order = !criteriaParams.order ? null : validateOrder(criteriaParams.order);
@@ -23,15 +23,15 @@ export class Criteria<T> {
         this._limit = !criteriaParams.limit ? null : new ValueObjectInt("limit", criteriaParams.limit).value;
     }
 
-    get Limit() {
+    get limit() {
         return this._limit ?? 0;
     }
 
-    get Offset() {
+    get offset() {
         return this._offset ?? 0;
     }
 
-    get Order() {
+    get order() {
         return this._order ? {
             field: this._order.field,
             direction: this._order.direction
@@ -44,17 +44,17 @@ export class Criteria<T> {
         this._filters?.forEach((filter) => this.convertFiltersToKnex(knexQuery, filter))
 
 
-        if (this._limit) {
-            knexQuery.limit(this._limit);
+        if (this.limit) {
+            knexQuery.limit(this.limit);
         }
 
 
         if (this._offset) {
             knexQuery.offset(this._offset);
         }
-        if (this._order) {
-            if (table) knexQuery.orderBy(`${table}.${this._order.field}`, this._order.direction);
-            else knexQuery.orderBy(this._order.field, this._order.direction);
+        if (this.order) {
+            if (table) knexQuery.orderBy(`${table}.${this.order.field}`, this.order.direction);
+            else knexQuery.orderBy(this.order.field as string, this.order.direction);
         }
 
     }
@@ -69,14 +69,14 @@ export class Criteria<T> {
         const andCondition = {
             "null": () => KnexQuery.whereNull(filter.field),
             "notNull": () => KnexQuery.whereNotNull(filter.field),
-            "between": () => KnexQuery.andWhereBetween(filter.field, filter.value),
+            "between": () => KnexQuery.andWhereBetween(filter.field, filter.value as [string, string | number]),
             "default": () => KnexQuery.where(filter.field, filter.operator, filter.value)
         };
 
         const orCondition = {
             "null": () => KnexQuery.orWhereNull(filter.field),
             "notNull": () => KnexQuery.orWhereNotNull(filter.field),
-            "between": () => KnexQuery.orWhereBetween(filter.field, filter.value),
+            "between": () => KnexQuery.orWhereBetween(filter.field, filter.value as [string, string | number]),
             "default": () => KnexQuery.orWhere(filter.field, filter.operator, filter.value)
         };
 
@@ -96,24 +96,24 @@ export class Criteria<T> {
 
     validateLikeOrIlikeOperator(filter: Filters) {
         if (filter.operator === COMPARISION_OPERATORS.like || filter.operator === COMPARISION_OPERATORS.ilike) {
-            filter.setValue(`%${filter.value}%`)
+            filter.value = `%${filter.value}%`
         }
     }
 
     validateInNotInOperator(filter: Filters) {
         if (filter.operator === COMPARISION_OPERATORS.notIn || filter.operator === COMPARISION_OPERATORS.in) {
-            filter.setValue(filter.value.split(", "))
+            filter.value = (filter.value as string).split(", ")
         }
     }
 
     validateBetweenOperator(filter: Filters) {
         if (filter.operator === COMPARISION_OPERATORS.between) {
-            const valuesSplited = filter.value.split(", ");
+            const valuesSplited = (filter.value as string).split(", ");
             if (valuesSplited.length !== 2) {
                 throw new Error("Between must have 2 values");
             }
 
-            filter.setValue(valuesSplited);
+            filter.value = (filter.value as string).split(", ")
         }
     }
 }

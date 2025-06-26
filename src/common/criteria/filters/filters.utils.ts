@@ -1,7 +1,7 @@
 import { Filters } from './filters.interface';
 import { COMPARISION_OPERATORS, FILTER_TYPE } from './filters.constant';
 
-export function validateFilter<T>(filter: Filters<T>) {
+export function validateFilter(filter: Filters) {
   if (!filter.field || filter.field.trim() === '') {
     throw new Error('Filter must have a field');
   }

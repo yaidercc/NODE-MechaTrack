@@ -98,6 +98,4 @@ export class User extends AggregateRoot<UserInterface> {
         }
     }
 
-
-
 }
