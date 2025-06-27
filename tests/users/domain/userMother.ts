@@ -1,4 +1,4 @@
-import { RepositoryFile } from "../../../src/common/infrastructure/interfaces/infrastructure.interfaces"
+import { Repository } from "../../../src/common/infrastructure/interfaces/infrastructure.interfaces"
 import { User } from "../../../src/core/users/domain/user"
 import { User as UserInterface } from "../../../src/core/users/interfaces/user.interface"
 import { v4 as uuid } from "uuid"
@@ -17,7 +17,7 @@ export class UserMother {
         }
     }
 
-    static async createUser(repository: RepositoryFile<User>, overrides: UserInterface) {
+    static async createUser(repository: Repository<User>, overrides: UserInterface) {
         const user = User.create(overrides)
         await repository.save(user);
         return user

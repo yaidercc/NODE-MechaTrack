@@ -1,5 +1,5 @@
 export * from "./valueObject"
-export * from "./valueObjectId"
 export * from "./valueObjectEnum"
 export * from "./valueObjectTimeStamp"
 export * from "./valueObjectString"
+export * from "./valueObjectId"

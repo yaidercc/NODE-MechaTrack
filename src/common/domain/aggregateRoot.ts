@@ -9,29 +9,29 @@ type ChangedAttributes<T> = Partial<T> & {
 
 
 export class AggregateRoot<T> {
-    protected changedAttributes: ChangedAttributes<T> = {}
+    protected _changedAttributes: ChangedAttributes<T> = {}
 
-    private id: ValueObjectId
-    private created_at?: ValueObjectTimeStamp
-    private updated_at?: ValueObjectTimeStamp | null
-    private deleted_at?: ValueObjectTimeStamp | null
+    private _id: ValueObjectId
+    private _created_at?: ValueObjectTimeStamp
+    private _updated_at?: ValueObjectTimeStamp | null
+    private _deleted_at?: ValueObjectTimeStamp | null
 
     constructor(
         private recordId: string
     ) {
-        this.id = new ValueObjectId('id', recordId)
+        this._id = new ValueObjectId('id', recordId)
     }
 
-    get Id() {
-        return this.id
+    get id() {
+        return this._id
     }
 
-    get ChangedAttributes() {
-        return this.changedAttributes
+    get changedAttributes() {
+        return this._changedAttributes
     }
 
     flusChanges() {
-        this.changedAttributes = {} as ChangedAttributes<T>;
+        this._changedAttributes = {} as ChangedAttributes<T>;
     }
 
     update<T extends Object>(dto: T) {
@@ -58,32 +58,32 @@ export class AggregateRoot<T> {
         this.Deleted_at =  dto.deleted_at
     }
 
-    get Created_at() {
-        return this.created_at?.value;
+    get created_at() {
+        return this._created_at?.value;
     }
-    get Updated_at() {
-        return this.updated_at?.value;
+    get updated_at() {
+        return this._updated_at?.value;
     }
-    get Deleted_at() {
-        return this.deleted_at?.value;
+    get deleted_at() {
+        return this._deleted_at?.value;
     }
 
     set Created_at(value: Date) {
         if (this.created_at === null || this.created_at === undefined) {
-            this.created_at = new ValueObjectTimeStamp('created at', value);
+            this._created_at = new ValueObjectTimeStamp('created at', value);
         }
     }
     set Updated_at(value: Date) {
-        this.updated_at = new ValueObjectTimeStamp('updated at', value, true);
+        this._updated_at = new ValueObjectTimeStamp('updated at', value, true);
         if (value !== null && value !== undefined) {
-            this.changedAttributes.updated_at = this.updated_at.value;
+            this._changedAttributes.updated_at = this.updated_at.value;
         }
     }
 
     set Deleted_at(value: Date) {
-        this.deleted_at = new ValueObjectTimeStamp('deleted at', value, true);
+        this._deleted_at = new ValueObjectTimeStamp('deleted at', value, true);
         if (value !== null && value !== undefined) {
-            this.changedAttributes.deleted_at = this.deleted_at.value;
+            this._changedAttributes.deleted_at = this.deleted_at.value;
         }
     }
 }

@@ -10,7 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserMother = void 0;
-const user_1 = require("@core/users/domain/user");
+const user_1 = require("../../../src/core/users/domain/user");
 const uuid_1 = require("uuid");
 class UserMother {
     static dto(user) {
@@ -28,6 +28,8 @@ class UserMother {
     static createUser(repository, overrides) {
         return __awaiter(this, void 0, void 0, function* () {
             const user = user_1.User.create(overrides);
+            yield repository.save(user);
+            return user;
         });
     }
 }

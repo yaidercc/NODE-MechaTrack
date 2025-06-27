@@ -1,6 +1,7 @@
 import { IDatabaseEnvConfig } from "@config/database/interfaces/config.interfaces";
 import knex, { Knex } from "knex";
 import { UpdateAggregate } from "./interfaces/infrastructure.interfaces";
+import { AggregateRoot } from "@common/domain/aggregateRoot";
 
 export class KnexRepository {
     private connection: Knex;
@@ -24,11 +25,11 @@ export class KnexRepository {
         return this.TableName;
     }
 
-    async update<T>(aggregate: UpdateAggregate<T>) {
+    async update<T extends object>(aggregate: AggregateRoot<T>) {
         try {
             await this.connection(this.tableName)
                 .update(aggregate.changedAttributes)
-                .where({id: aggregate.id.value})
+                .where({ id: aggregate.id.value })
                 .whereNull("deleted_at")
         } catch (error) {
             console.log(error);
@@ -36,7 +37,7 @@ export class KnexRepository {
         }
     }
 
-    async delete<T>(aggregate: UpdateAggregate<T>){
+    async delete<T>(aggregate: AggregateRoot<T>) {
         await this.update(aggregate);
     }
 }
