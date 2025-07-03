@@ -1,8 +1,16 @@
 export default {
-    preset: 'ts-jest',                // Here i am using ts-jest as a test engine
-    testEnvironment: 'node',          // Simulate the nodejs environment
-    roots: ['<rootDir>/tests'],       // Tests folder
-    transform: {
-        '^.+\\.ts$': ['ts-jest', { tsconfig: 'tsconfig.spec.json' }], // Transpilate all the filles inside the tests folder with ts-jest using tsconfig.spec.json
-    },
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  roots: ['<rootDir>/tests'],
+  transform: {
+    '^.+\\.ts$': ['ts-jest', {
+      tsconfig: 'tsconfig.spec.json'
+    }]
+  },
+  moduleNameMapper: {
+    
+    "^@common/(.*)$": "<rootDir>/src/common/$1",
+    "^@core/(.*)$": "<rootDir>/src/core/$1",
+    "^@config/(.*)$": "<rootDir>/src/config/$1"
+  }
 }

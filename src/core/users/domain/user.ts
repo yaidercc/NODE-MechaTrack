@@ -17,43 +17,62 @@ export class User extends AggregateRoot<UserInterface> {
         private userParams: UserInterface
     ) {
         super(userParams.id);
-        this._name = new ValueObjectId("name", userParams.name)
-        this._last_name = new ValueObjectId("last_name", userParams.last_name)
+        this._name = new ValueObjectString("name", userParams.name)
+        this._last_name = new ValueObjectString("last_name", userParams.last_name)
         this._email = new ValueObjectEmail(userParams.email)
         this._password = new ValueObjectPassword(userParams.password)
-        this._phone = new ValueObjectPhone(userParams.password)
+        this._phone = new ValueObjectPhone(userParams.phone)
         this._general_role_id = new ValueObjectId("general_role_id", userParams.general_role_id)
+        this.setCreated_at = userParams.created_at
+        this.setUpdated_at = userParams.updated_at ?? null
+        this.setDeleted_at = userParams.deleted_at ?? null
     }
+
+
 
     static create(dto: UserInterface) {
         return new User(dto)
     }
 
-    get name() {
-        return this._name.value
+    get id() {
+        return super.id
+    }
+
+    get name(): ValueObjectString {
+        return this._name
     }
 
 
-    get last_name() {
-        return this._last_name.value
+    get last_name(): ValueObjectString {
+        return this._last_name
     }
 
-    get email() {
-        return this._email.value
-    }
-
-
-    get password() {
-        return this._password.value
-    }
-
-    get phone() {
-        return this._phone.value
+    get email(): ValueObjectEmail {
+        return this._email
     }
 
 
-    get general_role_id() {
-        return this._general_role_id.value
+    get password(): ValueObjectPassword {
+        return this._password
+    }
+
+    get phone(): ValueObjectPhone {
+        return this._phone
+    }
+
+    get created_at(){
+        return super.created_at
+    }
+    get updated_at() {
+        return super.updated_at
+    }
+    get deleted_at() {
+        return super.deleted_at
+    }
+
+
+    get general_role_id(): ValueObjectId {
+        return this._general_role_id
     }
 
     set name(value: string) {
@@ -99,3 +118,4 @@ export class User extends AggregateRoot<UserInterface> {
     }
 
 }
+

@@ -49,7 +49,7 @@ export const development: IDatabaseEnvConfig = {
 export const testing: IDatabaseEnvConfig = {
     client: "sqlite3",
     connection: {
-        fileName: ":memory:"
+        filename: ":memory:"
     },
     useNullAsDefault: true,
     migrations: {

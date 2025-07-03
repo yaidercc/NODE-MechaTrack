@@ -1,5 +1,5 @@
 import { Guards } from "./guards";
-import { ValueObject } from "./valueObject";
+import { ValueObject } from "@common/valueObjects"
 
 export class ValueObjectInt extends ValueObject<number> {
     constructor(field: string, value: number, nullable = false) {

@@ -32,13 +32,12 @@ export class Guards {
 
     static validateEmail(value: string) {
         const emailRegex = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
-        if (!new RegExp(emailRegex, 'gi').test(value)) {
+        if (!new RegExp(emailRegex, 'gi').test(value.trim())) {
             throw new Error(`Email: The value ${value} is not a valid email`);
         }
     }
     static validatePhone(value: string) {
-        const phoneRegex = '^(3)\d{9}$'
-        if (!new RegExp(phoneRegex, 'gi').test(value)) {
+        if (!/^\d{2}(3)\d{9}$/.test(value.trim())) {
             throw new Error(`Phone: The value ${value} is not a valid phone number`);
         }
     }

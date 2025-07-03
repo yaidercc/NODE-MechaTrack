@@ -5,4 +5,7 @@ export class ValueObjectPassword extends ValueObjectString {
         super("password", value);
         Guards.validatePassword(value);
     }
+    get value(): string {
+        return super.value;
+    }
 }

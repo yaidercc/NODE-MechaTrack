@@ -25,7 +25,7 @@ export interface Migrations {
 }
 
 export interface ConnectionSqlite {
-    fileName: string
+    filename: string
 }
  
 export interface Pool {

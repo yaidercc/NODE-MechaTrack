@@ -3,10 +3,10 @@ export class ValueObject<T> {
         public field: string,
         private _value: T
     ) {
-        Object.freeze(this);
+        // Object.freeze(this._value);
     }
 
-    get value() {
+    get value(): T {
         return this._value;
     }
 }

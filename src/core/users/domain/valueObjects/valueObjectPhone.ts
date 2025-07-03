@@ -5,4 +5,8 @@ export class ValueObjectPhone extends ValueObjectString {
         super("email", value);
         Guards.validatePhone(value);
     }
+
+     get value(): string {
+    return super.value;
+  }
 }

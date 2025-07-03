@@ -1,33 +1,29 @@
 import { IDatabaseEnvConfig } from "@config/database/interfaces/config.interfaces";
 import knex, { Knex } from "knex";
-import { UpdateAggregate } from "./interfaces/infrastructure.interfaces";
 import { AggregateRoot } from "@common/domain/aggregateRoot";
 
 export class KnexRepository {
-    private connection: Knex;
+    private _connection: Knex;
 
     constructor(
-        public config: IDatabaseEnvConfig,
+        public config: Knex | IDatabaseEnvConfig,
         public tableName: string
     ) {
-        if (typeof config !== 'function') {
-            this.connection = knex(config as Knex.Config)
+        if ('raw' in config) {
+            this._connection = config;
         } else {
-            this.connection = config
+            this._connection = knex(config as Knex.Config);
         }
     }
 
-    get Connection(): Knex {
-        return this.connection;
+    public get connection(): Knex {
+        return this._connection;
     }
 
-    get TableName(): string {
-        return this.TableName;
-    }
 
     async update<T extends object>(aggregate: AggregateRoot<T>) {
         try {
-            await this.connection(this.tableName)
+            await this._connection(this.tableName)
                 .update(aggregate.changedAttributes)
                 .where({ id: aggregate.id.value })
                 .whereNull("deleted_at")

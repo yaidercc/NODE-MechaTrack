@@ -7,8 +7,8 @@ export function up(knex: Knex) {
         table.string('last_name', 100).notNullable();
         table.string('email', 70).notNullable().unique();
         table.string('password',100).notNullable();
-        table.string('phoneNumber',12).notNullable();
-        table.uuid('general_rol_id').notNullable().references('id').inTable('general_roles');
+        table.string('phone',12).notNullable();
+        table.uuid('general_role_id').notNullable().references('id').inTable('general_roles');
         table.timestamps(true, true);
         table.dateTime("deleted_at");
     })
