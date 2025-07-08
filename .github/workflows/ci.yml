@@ -1,0 +1,63 @@
+name: Run tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  tests:
+    runs-on: ubuntu-20.04
+    services:
+      postgres:
+        image: postgres:12.22
+        env:
+          POSTGRES_DB: mechatrack
+          POSTGRES_USER: jhondoe
+          POSTGRES_PASSWORD: jhondoe123
+        ports:
+          - "5432:5432"
+        # those options is for validate if the database is ready to recieve connections
+        # health-cmd pg_isready: is executed to know if the database is ready
+        # health-interval 10s: interval of time in which pg_isready will be executed
+        # health-timeout 5s: how much time github has to wait before realize that the database have failed
+        # health-retries 5: how much attemps until stop trying to connect the database
+        options: >-
+          --health-cmd pg_isready 
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DB_NAME: mechatrack
+      DB_USER: jhondoe
+      DB_PASSWORD: jhondoe123
+      DB_HOST: localhost
+      DB_PORT: 5433
+    
+    steps:
+      - name: Checkout code # Clona el código
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js # Usa Node 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432; do
+            echo "Esperando a PostgreSQL..."
+            sleep 2;
+          done
+
+      - name: Run migrations and seeds
+        run: |
+          npm run build
+          npm run migrate:start
+
+      - name: Run tests
+        run: npm run test
