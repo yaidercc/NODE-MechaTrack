@@ -21,7 +21,7 @@ export class KnexRepository {
     }
 
 
-    async update<T extends object>(aggregate: AggregateRoot<T>) {
+    async update(aggregate: AggregateRoot) {
         try {
             await this._connection(this.tableName)
                 .update(aggregate.changedAttributes)
@@ -33,7 +33,7 @@ export class KnexRepository {
         }
     }
 
-    async delete<T>(aggregate: AggregateRoot<T>) {
+    async delete(aggregate: AggregateRoot) {
         await this.update(aggregate);
     }
 }

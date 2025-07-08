@@ -1,10 +1,11 @@
-import { AggregateRoot, ValueObjectId, ValueObjectString } from "@common/index";
-import { User as UserInterface } from "../interfaces/user.interface"
-import { ValueObjectEmail } from "./valueObjects/valueObjectsEmail";
-import { ValueObjectPassword } from "./valueObjects/valueObjectPassword";
-import { ValueObjectPhone } from "./valueObjects/valueObjectPhone";
+import { AggregateRoot, ValueObjectId, ValueObjectString, ValueObjectTimeStamp } from "@common/index";
+import { UserInterface } from "../interfaces/user.interface"
+import { ValueObjectEmail } from "./valueObjects/email.vo";
+import { ValueObjectPassword } from "./valueObjects/password.vo";
+import { ValueObjectPhone } from "./valueObjects/phone.vo";
 
-export class User extends AggregateRoot<UserInterface> {
+
+export class User extends AggregateRoot  {
 
     private _name: ValueObjectString;
     private _last_name: ValueObjectString;
@@ -30,7 +31,7 @@ export class User extends AggregateRoot<UserInterface> {
 
 
 
-    static create(dto: UserInterface) {
+    static create(dto: UserInterface): User {
         return new User(dto)
     }
 
@@ -117,5 +118,7 @@ export class User extends AggregateRoot<UserInterface> {
         }
     }
 
+
 }
+
 

@@ -1,6 +1,6 @@
 import { KnexUserRepository } from "../infrastructure/KnexUserRepository"
 
-export interface User {
+export interface UserInterface {
     id: string,
     name: string,
     last_name: string,
@@ -11,6 +11,7 @@ export interface User {
     created_at: Date
     updated_at?: Date
     deleted_at?: Date
+    a?:string
 }
 
 

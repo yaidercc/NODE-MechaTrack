@@ -8,9 +8,8 @@ export default {
     }]
   },
   moduleNameMapper: {
-    
     "^@common/(.*)$": "<rootDir>/src/common/$1",
-    "^@core/(.*)$": "<rootDir>/src/core/$1",
+    "^@modules/(.*)$": "<rootDir>/src/modules/$1",
     "^@config/(.*)$": "<rootDir>/src/config/$1"
   }
 }

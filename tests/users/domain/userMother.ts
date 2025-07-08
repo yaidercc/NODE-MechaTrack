@@ -1,7 +1,7 @@
 import { Repository } from "../../../src/common/infrastructure/interfaces/infrastructure.interfaces"
-import { User } from "../../../src/core/users/domain/user"
-import { KnexUserRepository } from "../../../src/core/users/infrastructure/KnexUserRepository";
-import { User as UserInterface } from "../../../src/core/users/interfaces/user.interface"
+import { User } from "../../../src/modules/users/domain/user"
+import { KnexUserRepository } from "../../../src/modules/users/infrastructure/KnexUserRepository";
+import { UserInterface } from "../../../src/modules/users/interfaces/user.interface"
 import { v4 as uuid } from "uuid"
 
 export class UserMother {
@@ -21,6 +21,7 @@ export class UserMother {
 
     static async createUser(repository: KnexUserRepository, overrides: UserInterface) {
         const user = User.create(overrides)
+        
         await repository.save(user);
         return user
     }

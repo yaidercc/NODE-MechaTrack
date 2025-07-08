@@ -12,6 +12,7 @@ export class KnexUserRepository extends KnexRepository implements Repository<Use
     }
     async save(dto: User): Promise<void> {
         try {
+            
             await this.connection(this.tableName).insert({
                 id: dto.id.value,
                 name: dto.name,
