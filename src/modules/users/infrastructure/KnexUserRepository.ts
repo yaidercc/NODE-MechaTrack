@@ -1,9 +1,9 @@
-import { Repository } from "@common/infrastructure/interfaces/infrastructure.interfaces";
-import { KnexRepository } from "@common/infrastructure/knexRepository";
+import { Repository } from "../../../common/infrastructure/interfaces/infrastructure.interfaces";
+import { KnexRepository } from "../../../common/infrastructure/knexRepository";
 import { User } from "../domain/user";
-import { Criteria } from "@common/criteria/criteria";
-import { ValueObjectId } from "@common/valueObjects";
-import { IDatabaseEnvConfig } from "@config/database/interfaces/config.interfaces";
+import { Criteria } from "../../../common/criteria/criteria";
+import { ValueObjectId } from "../../../common/valueObjects";
+import { IDatabaseEnvConfig } from "../../../config/database/interfaces/config.interfaces";
 import { Knex } from "knex";
 
 export class KnexUserRepository extends KnexRepository implements Repository<User> {

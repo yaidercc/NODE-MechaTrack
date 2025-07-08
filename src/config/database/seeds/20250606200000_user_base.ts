@@ -13,7 +13,7 @@ export async function seed(knex: Knex) {
         last_name: "cordoba cordoba",
         email: "yaider@gmail.com",
         password: hashedPassword,
-        phoneNumber: "573137563821",
-        general_rol_id: "a0a63f02-0c29-4971-847b-2c844e61a11c",
+        phone: "573137563821",
+        general_role_id: "a0a63f02-0c29-4971-847b-2c844e61a11c",
     })
 }

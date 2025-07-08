@@ -1,4 +1,4 @@
-import { IDatabaseEnvConfig } from "@config/database/interfaces/config.interfaces";
+import { IDatabaseEnvConfig } from "../../config/database/interfaces/config.interfaces";
 import knex, { Knex } from "knex";
 
 let instance: Knex | null = null;

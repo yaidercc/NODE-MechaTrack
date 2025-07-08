@@ -1,7 +1,7 @@
 import { Filters } from "./filters/filters.interface";
 import { QueryParams } from "./interfaces/criteria.interfaces";
-import { ValueObjectInt } from "@common/valueObjects/int.vo";
-import { validateFilter } from "@common/criteria/filters/filters.utils";
+import { ValueObjectInt } from "../valueObjects/index";
+import { validateFilter } from "./filters/filters.utils";
 import { validateOrder } from "./order/order.utils";
 import { Order } from "./order/order.interface";
 import { Knex } from "knex";

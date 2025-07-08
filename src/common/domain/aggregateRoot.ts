@@ -1,4 +1,4 @@
-import { ValueObjectId, ValueObjectTimeStamp } from "@common/index";
+import { ValueObjectId, ValueObjectTimeStamp } from "../valueObjects";
 
 type ChangedAttributes = {
   [key: string]: any;

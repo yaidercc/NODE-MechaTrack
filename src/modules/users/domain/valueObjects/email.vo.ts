@@ -1,4 +1,4 @@
-import { Guards, ValueObjectString,  } from "@common/index";
+import { Guards, ValueObjectString } from "../../../../common";
 
 export class ValueObjectEmail extends ValueObjectString {
     constructor(value: string, nullable = false) {

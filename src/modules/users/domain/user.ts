@@ -1,4 +1,5 @@
-import { AggregateRoot, ValueObjectId, ValueObjectString, ValueObjectTimeStamp } from "@common/index";
+import { ValueObjectId, ValueObjectString } from "../../../common/valueObjects";
+import { AggregateRoot} from "../../../common/domain/aggregateRoot"
 import { UserInterface } from "../interfaces/user.interface"
 import { ValueObjectEmail } from "./valueObjects/email.vo";
 import { ValueObjectPassword } from "./valueObjects/password.vo";

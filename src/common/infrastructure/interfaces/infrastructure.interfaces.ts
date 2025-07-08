@@ -1,5 +1,6 @@
-import { Criteria } from "@common/criteria/criteria"
-import { AggregateRoot, ValueObjectId } from "@common/index"
+import { Criteria } from "../../criteria/criteria"
+import { ValueObjectId } from "../../valueObjects/index"
+import { AggregateRoot } from "../../domain/aggregateRoot"
 import { KnexRepository } from "../knexRepository"
 
 export interface Repository<T> extends Pick<KnexRepository, 'connection' | 'tableName'> {

@@ -2,12 +2,7 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "CommonJS",
-    "baseUrl": ".", 
-    "paths": {
-      "@common/*": ["src/common/*"],
-      "@modules/*": ["src/modules/*"],
-      "@config/*": ["src/config/*"]
-    },
+    "baseUrl": ".",
     "outDir": "./dist",
     "moduleResolution": "node",
     "esModuleInterop": true,

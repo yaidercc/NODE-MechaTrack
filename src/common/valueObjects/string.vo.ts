@@ -1,5 +1,5 @@
 import { Guards } from "./guards";
-import { ValueObject } from "@common/valueObjects"
+import { ValueObject } from "./valueObject"
 
 export class ValueObjectString extends ValueObject<string>{
     constructor(

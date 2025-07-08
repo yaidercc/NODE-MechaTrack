@@ -17,7 +17,7 @@ jobs:
           POSTGRES_USER: jhondoe
           POSTGRES_PASSWORD: jhondoe123
         ports:
-          - "5432:5432"
+          - "5433:5432"
         # those options is for validate if the database is ready to recieve connections
         # health-cmd pg_isready: is executed to know if the database is ready
         # health-interval 10s: interval of time in which pg_isready will be executed
@@ -49,7 +49,7 @@ jobs:
 
       - name: Wait for PostgreSQL
         run: |
-          until pg_isready -h localhost -p 5432; do
+          until pg_isready -h localhost -p 5433; do
             echo "Esperando a PostgreSQL..."
             sleep 2;
           done

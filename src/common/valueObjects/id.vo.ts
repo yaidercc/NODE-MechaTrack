@@ -1,4 +1,4 @@
-import { ValueObject } from "@common/valueObjects"
+import { ValueObject } from "./valueObject"
 import { validate } from "uuid"
 
 export class ValueObjectId extends ValueObject<string> {
