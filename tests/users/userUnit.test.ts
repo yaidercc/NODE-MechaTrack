@@ -5,14 +5,7 @@ import { UserMother } from "./domain/userMother"
 import { symbol } from 'joi';
 
 describe('User unit tests', () => {
-  const repository = new KnexUserRepository(knexConfig);
 
-  beforeEach(async () => {
-    await (repository as any).connection.migrate.latest();
-  })
-  afterAll(async () => {
-    await (repository as any).connection.destroy();
-  });
 
   it('should create a new user', async () => {
     const user = UserMother.dto();
@@ -56,7 +49,7 @@ describe('User unit tests', () => {
 
     newUser.update(dto)
 
-    expect(newUser.name.value).toBe(1)
+    expect(newUser.name.value).toBe(dto.name)
     expect(newUser.last_name.value).toBe(dto.last_name)
   });
 

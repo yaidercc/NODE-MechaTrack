@@ -1,4 +1,3 @@
-import { KnexUserRepository } from "../infrastructure/KnexUserRepository"
 
 export interface UserInterface {
     id: string,
@@ -11,7 +10,6 @@ export interface UserInterface {
     created_at: Date
     updated_at?: Date
     deleted_at?: Date
-    a?:string
 }
 
 
