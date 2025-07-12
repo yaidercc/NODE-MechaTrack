@@ -1,8 +1,9 @@
 import { KnexUserRepository } from "../../src/modules/users/infrastructure/KnexUserRepository";
 import { knexConfig } from "../knexfile";
-import { userCreator } from ".././../src/modules/users/application"
+import { UserCreator, UserFinder, UserUpdater } from ".././../src/modules/users/application"
 import { UserMother } from "./domain/userMother";
 import { AlreadyExistsError } from "../../src/common/errors";
+import { User } from "../../src/modules/users/domain/user";
 
 describe("User intregration tests", () => {
     const repository = new KnexUserRepository(knexConfig);
@@ -17,7 +18,7 @@ describe("User intregration tests", () => {
 
     it("should create a new user", async () => {
         const userDTO = UserMother.dto()
-        await new userCreator(repository).execute(userDTO);
+        await new UserCreator(repository).execute(userDTO);
 
         const createdUser = await repository.connection("users").select("*").where("id", userDTO.id).limit(1)
 
@@ -36,11 +37,22 @@ describe("User intregration tests", () => {
 
     it("should not create repeated users", async () => {
         const userDTO = UserMother.dto();
-        const creator = new userCreator(repository);
+        const creator = new UserCreator(repository);
 
         await creator.execute(userDTO);
 
-        await expect(()=>creator.execute(userDTO)).rejects.toThrow(AlreadyExistsError);
+        await expect(() => creator.execute(userDTO)).rejects.toThrow(AlreadyExistsError);
     });
+
+
+    it("should find an user", async () => {
+       const userDTO = UserMother.dto();
+       await new UserCreator(repository).execute(userDTO);
+
+       const findUser = await new UserFinder(repository).execute(userDTO.id)
+       expect(findUser).toBeInstanceOf(User)
+    });
+
+
 
 })

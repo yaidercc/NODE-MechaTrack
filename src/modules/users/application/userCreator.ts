@@ -4,9 +4,9 @@ import { ValueObjectEmail } from "../domain/valueObjects/email.vo";
 import { KnexUserRepository } from "../infrastructure/KnexUserRepository";
 import { UserInterface } from "../interfaces/user.interface";
 
-export class userCreator {
+export class UserCreator {
     constructor(
-        private repository: KnexUserRepository
+        private readonly repository: KnexUserRepository
     ) { }
 
     async execute(dto: UserInterface) {
