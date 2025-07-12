@@ -1,9 +1,9 @@
 
 export class ValueObjectTimeStamp {
-    private _value: Date | null = null;
+    private _value: string | null = null;
     public field: string;
 
-    constructor(field: string, value: Date | null, nullable = false) {
+    constructor(field: string, value: string | null, nullable = false) {
         this.field = field
         if (!value && !nullable) {
             throw new Error(`${this.field}: The value cannot be null`);
@@ -12,7 +12,7 @@ export class ValueObjectTimeStamp {
             return
         }
         if (value) {
-            this.ensureIsTimestamp(value);
+            this.ensureIsTimestamp(new Date(value));
             this._value = value
         }
     }
@@ -25,7 +25,5 @@ export class ValueObjectTimeStamp {
     get value() {
         return this._value
     }
-    get asISOString(): string | null {
-        return this._value?.toISOString() ?? null;
-    }
+
 }

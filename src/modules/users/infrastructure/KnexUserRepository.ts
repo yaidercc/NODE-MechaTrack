@@ -33,7 +33,7 @@ export class KnexUserRepository extends KnexRepository implements Repository<Use
                 password: dto.password.value,
                 phone: dto.phone.value,
                 general_role_id: dto.general_role_id.value,
-                created_at: dto.created_at?.asISOString,
+                created_at: dto.created_at?.value,
             })
 
         } catch (error) {

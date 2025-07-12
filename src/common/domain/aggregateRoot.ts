@@ -63,31 +63,33 @@ export abstract class AggregateRoot {
         (this as any)[key] = value;
         this._changedAttributes[key] = value;
       }
+ 
     }
   }
 
-  public delete(dto: { deleted_at: Date }): void {
+  public delete(dto: { deleted_at: string }): void {
     if (!dto.deleted_at) {
       throw new Error("deleted_at cannot be null.");
     }
 
-    this.setDeleted_at = dto.deleted_at;
+    this.deleted_at = dto.deleted_at;
   }
 
-  protected set setCreated_at(value: Date) {
+  protected set created_at(value: string) {
     if (!this._created_at) {
       this._created_at = new ValueObjectTimeStamp("created_at", value);
     }
   }
 
-  protected set setUpdated_at(value: Date | null) {
+  protected set updated_at(value: string | null) {
     this._updated_at = new ValueObjectTimeStamp("updated_at", value, true);
+
     if (value) {
       this._changedAttributes.updated_at = this.updated_at;
     }
   }
 
-  protected set setDeleted_at(value: Date | null) {
+  protected set deleted_at(value: string | null) {
     this._deleted_at = new ValueObjectTimeStamp("deleted_at", value, true);
     if (value) {
       this._changedAttributes.deleted_at = this.deleted_at;

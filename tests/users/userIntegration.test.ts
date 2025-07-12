@@ -46,11 +46,38 @@ describe("User intregration tests", () => {
 
 
     it("should find an user", async () => {
-       const userDTO = UserMother.dto();
-       await new UserCreator(repository).execute(userDTO);
+        const userDTO = UserMother.dto();
+        await new UserCreator(repository).execute(userDTO);
 
-       const findUser = await new UserFinder(repository).execute(userDTO.id)
-       expect(findUser).toBeInstanceOf(User)
+        const findUser = (await new UserFinder(repository).execute(userDTO.id)).toJSON().data
+        expect(findUser).toMatchObject({
+            name: userDTO.name,
+            last_name: userDTO.last_name,
+            email: userDTO.email,
+            password: userDTO.password,
+            phone: userDTO.phone,
+            general_role_id: userDTO.general_role_id,
+        })
+        expect(findUser.id).toBeDefined()
+    });
+
+
+    it("should update an user", async () => {
+        const userDTO = UserMother.dto();
+        await new UserCreator(repository).execute(userDTO);
+
+        const dto = {
+            name: "rodrigo",
+            last_name: "garcia",
+            updated_at: new Date().toISOString()
+        }
+
+        await new UserUpdater(repository).execute(userDTO.id, dto);
+
+        const findUser = (await new UserFinder(repository).execute(userDTO.id)).toJSON().data
+
+        expect(findUser.name).toBe(dto.name)
+        expect(findUser.last_name).toBe(dto.last_name)
     });
 
 

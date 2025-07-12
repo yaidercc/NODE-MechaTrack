@@ -7,9 +7,9 @@ export interface UserInterface {
     password: string
     phone: string
     general_role_id: string
-    created_at: Date
-    updated_at?: Date
-    deleted_at?: Date
+    created_at: string
+    updated_at?: string
+    deleted_at?: string
 }
 
 

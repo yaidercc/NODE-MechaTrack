@@ -14,7 +14,7 @@ export class UserMother {
             password: 'Str0ngP@ssword!',
             phone: '573001112233',
             general_role_id: user?.general_role_id || '8f86b1c2-4a1e-4adf-9a5e-bd9b0a3e1234', 
-            created_at: new Date(), 
+            created_at: new Date().toISOString(), 
         };
     }
 

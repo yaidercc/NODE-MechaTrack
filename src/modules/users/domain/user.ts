@@ -25,11 +25,10 @@ export class User extends AggregateRoot  {
         this._password = new ValueObjectPassword(userParams.password)
         this._phone = new ValueObjectPhone(userParams.phone)
         this._general_role_id = new ValueObjectId("general_role_id", userParams.general_role_id)
-        this.setCreated_at = userParams.created_at
-        this.setUpdated_at = userParams.updated_at ?? null
-        this.setDeleted_at = userParams.deleted_at ?? null
+        this.created_at = userParams.created_at
+        this.updated_at = userParams.updated_at ?? null
+        this.deleted_at = userParams.deleted_at ?? null
     }
-
 
 
     static create(dto: UserInterface): User {
@@ -62,15 +61,6 @@ export class User extends AggregateRoot  {
         return this._phone
     }
 
-    get created_at(){
-        return super.created_at
-    }
-    get updated_at() {
-        return super.updated_at
-    }
-    get deleted_at() {
-        return super.deleted_at
-    }
 
 
     get general_role_id(): ValueObjectId {

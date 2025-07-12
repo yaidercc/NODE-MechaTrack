@@ -9,8 +9,9 @@ export function up(knex: Knex) {
         table.string('password',100).notNullable();
         table.string('phone',12).notNullable();
         table.uuid('general_role_id').notNullable().references('id').inTable('general_roles');
-        table.timestamps(true, true);
-        table.dateTime("deleted_at");
+        table.datetime('created_at').notNullable().defaultTo(knex.raw('CURRENT_TIMESTAMP'));
+        table.datetime('updated_at').nullable();
+        table.datetime('deleted_at').nullable();
     })
 }
 
