@@ -12,13 +12,15 @@ export class ValueObjectTimeStamp {
             return
         }
         if (value) {
-            this.ensureIsTimestamp(new Date(value));
+           
+            this.ensureIsTimestamp(new Date(value.toString()));
+            console.log(typeof value)
             this._value = value
         }
     }
 
     private ensureIsTimestamp(value: Date) {
-        if (value.toString() === 'Invalid Date') {
+        if (isNaN(value.getTime())) {
             throw new Error(`${this.field}: Invalid value ${value} for object timestamp`);
         }
     }

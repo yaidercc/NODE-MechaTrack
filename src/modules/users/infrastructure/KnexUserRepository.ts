@@ -17,6 +17,7 @@ export class KnexUserRepository extends KnexRepository implements Repository<Use
         }
         try {
             const user = await this.connection(this.tableName).select("*").where(queryField).first()
+            console.log(user)
             return user ? new User(user) : null
         } catch (error) {
             console.log(error)

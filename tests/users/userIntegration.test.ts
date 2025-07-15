@@ -1,8 +1,8 @@
 import { KnexUserRepository } from "../../src/modules/users/infrastructure/KnexUserRepository";
 import { knexConfig } from "../knexfile";
-import { UserCreator, UserFinder, UserUpdater } from ".././../src/modules/users/application"
+import { UserCreator, UserDeleter, UserFinder, UserUpdater } from ".././../src/modules/users/application"
 import { UserMother } from "./domain/userMother";
-import { AlreadyExistsError } from "../../src/common/errors";
+import { AlreadyExistsError, NotFoundError } from "../../src/common/errors";
 import { User } from "../../src/modules/users/domain/user";
 
 describe("User intregration tests", () => {
@@ -80,6 +80,38 @@ describe("User intregration tests", () => {
         expect(findUser.last_name).toBe(dto.last_name)
     });
 
+
+    it("should update an user with an existant email", async () => {
+        const user1DTO = UserMother.randomDTO()
+        const user2DTO = UserMother.randomDTO()
+        await new UserCreator(repository).execute(user1DTO);
+        await new UserCreator(repository).execute(user2DTO);
+        const updater =  new UserUpdater(repository);
+
+        const dto = {
+            email: user2DTO.email,
+            updated_at: new Date().toISOString()
+        }
+
+        await expect(() => updater.execute(user1DTO.id, dto)).rejects.toThrow(AlreadyExistsError);
+        
+    });
+
+
+    it.only("should delete an user", async () => {
+       const userDTO = UserMother.dto();
+       await new UserCreator(repository).execute(userDTO);
+       const finder = new UserFinder(repository); 
+
+        const dto = {
+            deleted_at: new Date().toISOString()
+        }
+        
+        await new UserDeleter(repository).execute(userDTO.id, dto);
+
+        await expect(() => finder.execute(userDTO.id)).rejects.toThrow(NotFoundError);
+        
+    });
 
 
 })

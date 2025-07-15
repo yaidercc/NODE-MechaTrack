@@ -3,12 +3,17 @@ import { Server as HttpServer } from "http";
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet"
+import passport from "passport"
+import { JwtAuthStrategy } from "./auth/strategies";
+import { development, testing } from "./config/database/Knexfile";
+import { KnexUserRepository } from "./modules/users/infrastructure/KnexUserRepository";
 
 export class Server {
     private app: Express;
     private paths;
     private server!: HttpServer;
     public port: number;
+    
 
     constructor(
 
@@ -26,10 +31,20 @@ export class Server {
     }
 
     middlewares(): void {
+
         this.app.use(express.json());
         this.app.use(cors());
         this.app.use(morgan("dev"))
         this.app.use(helmet())
+
+        const knexConfig =  process.env.NODE_ENV == "test" ? testing : development
+        
+        const userRepository = new KnexUserRepository(knexConfig)
+        const jwtStrategy = new JwtAuthStrategy(userRepository);
+
+        jwtStrategy.init(passport)
+
+        this.app.use(passport.initialize())
     }
 
     private routes(): void { }

@@ -58,21 +58,16 @@ export abstract class AggregateRoot {
       const newValue = typeof value === 'object'
         ? JSON.stringify(value)
         : value;
-
       if (currentValue !== newValue) {
         (this as any)[key] = value;
         this._changedAttributes[key] = value;
       }
- 
+
     }
   }
 
   public delete(dto: { deleted_at: string }): void {
-    if (!dto.deleted_at) {
-      throw new Error("deleted_at cannot be null.");
-    }
-
-    this.deleted_at = dto.deleted_at;
+    this.update(dto)
   }
 
   protected set created_at(value: string) {
@@ -90,9 +85,17 @@ export abstract class AggregateRoot {
   }
 
   protected set deleted_at(value: string | null) {
+    console.log('🚨 SETTER CALLED WITH:', value);
+    
+    if (value === null || value === undefined) {
+        this._deleted_at = null;
+        return;
+    }
+
     this._deleted_at = new ValueObjectTimeStamp("deleted_at", value, true);
     if (value) {
-      this._changedAttributes.deleted_at = this.deleted_at;
+        this._changedAttributes.deleted_at = this._deleted_at;
+        console.log("✅ ASSIGNED VO TO CHANGED ATTRIBUTES");
     }
-  }
+}
 }

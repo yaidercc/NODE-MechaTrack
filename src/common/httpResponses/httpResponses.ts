@@ -1,5 +1,6 @@
 import { HttpStatusCode } from "axios"
 import { ResponseStructure } from "./interfaces/httpResponses.interfaces";
+import { Response } from "express";
 
 export class HttpResponses {
     static ok<T>({ data, res, message = "Success" }: ResponseStructure<T>) {
@@ -14,6 +15,13 @@ export class HttpResponses {
             data
         })
     }
+
+    static unAuthorized(res: Response, message = "Unauthorized") {
+        return res.status(HttpStatusCode.Unauthorized).json({
+            message
+        })
+    }
+
     static badRequest<T>({ data, res, message = "Bad request", errors }: ResponseStructure<T>) {
         return res.status(HttpStatusCode.BadRequest).json({
             message,
@@ -21,10 +29,9 @@ export class HttpResponses {
             data
         })
     }
-    static notFound<T>({ data, res, message = "Not found", errors }: ResponseStructure<T>) {
+    static notFound(res: Response, message = "Not found") {
         return res.status(HttpStatusCode.NotFound).json({
-            message,
-            errors
+            message
         })
     }
     static validationsFail<T>({ res, message = "Validations fail", errors }: ResponseStructure<T>) {
@@ -33,9 +40,9 @@ export class HttpResponses {
             errors
         })
     }
-    static internalServerError<T>({ res, message = "Unexpected error ocurreed", errors }: ResponseStructure<T>) {
+    static internalServerError(res: Response, message = "Unexpected error ocurreed",) {
         return res.status(HttpStatusCode.InternalServerError).json({
-            errors
+            message
         })
     }
 }

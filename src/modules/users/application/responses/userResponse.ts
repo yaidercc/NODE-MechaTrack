@@ -1,6 +1,6 @@
 import { User } from "../domain";
-import { UserResponseInterface } from "../infrastructure/userResponseInterface";
 import { UserInterface } from "../interfaces/user.interface";
+import { UserResponseInterface } from "../interfaces/userResponseInterface";
 
 export class UserResponse {
     private user: User;
