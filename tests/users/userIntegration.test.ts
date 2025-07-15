@@ -1,9 +1,8 @@
 import { KnexUserRepository } from "../../src/modules/users/infrastructure/KnexUserRepository";
 import { knexConfig } from "../knexfile";
-import { UserCreator, UserDeleter, UserFinder, UserUpdater } from ".././../src/modules/users/application"
+import { UserCreator, UserDeleter, UserFinder, UserSearcher, UserUpdater } from ".././../src/modules/users/application"
 import { UserMother } from "./domain/userMother";
 import { AlreadyExistsError, NotFoundError } from "../../src/common/errors";
-import { User } from "../../src/modules/users/domain/user";
 
 describe("User intregration tests", () => {
     const repository = new KnexUserRepository(knexConfig);
@@ -49,7 +48,7 @@ describe("User intregration tests", () => {
         const userDTO = UserMother.dto();
         await new UserCreator(repository).execute(userDTO);
 
-        const findUser = (await new UserFinder(repository).execute(userDTO.id)).toJSON().data
+        const findUser = (await new UserFinder(repository).execute(userDTO.id)).toJSON()
         expect(findUser).toMatchObject({
             name: userDTO.name,
             last_name: userDTO.last_name,
@@ -74,7 +73,7 @@ describe("User intregration tests", () => {
 
         await new UserUpdater(repository).execute(userDTO.id, dto);
 
-        const findUser = (await new UserFinder(repository).execute(userDTO.id)).toJSON().data
+        const findUser = (await new UserFinder(repository).execute(userDTO.id)).toJSON()
 
         expect(findUser.name).toBe(dto.name)
         expect(findUser.last_name).toBe(dto.last_name)
@@ -86,7 +85,7 @@ describe("User intregration tests", () => {
         const user2DTO = UserMother.randomDTO()
         await new UserCreator(repository).execute(user1DTO);
         await new UserCreator(repository).execute(user2DTO);
-        const updater =  new UserUpdater(repository);
+        const updater = new UserUpdater(repository);
 
         const dto = {
             email: user2DTO.email,
@@ -94,24 +93,48 @@ describe("User intregration tests", () => {
         }
 
         await expect(() => updater.execute(user1DTO.id, dto)).rejects.toThrow(AlreadyExistsError);
-        
+
     });
 
 
-    it.only("should delete an user", async () => {
-       const userDTO = UserMother.dto();
-       await new UserCreator(repository).execute(userDTO);
-       const finder = new UserFinder(repository); 
+    it("should delete an user", async () => {
+        const userDTO = UserMother.dto();
+        await new UserCreator(repository).execute(userDTO);
+        const finder = new UserFinder(repository);
 
         const dto = {
             deleted_at: new Date().toISOString()
         }
-        
+
         await new UserDeleter(repository).execute(userDTO.id, dto);
 
         await expect(() => finder.execute(userDTO.id)).rejects.toThrow(NotFoundError);
-        
+
     });
+
+
+    it('Should Find a user by a criteria', async () => {
+        const userDto = UserMother.dto();
+        await UserMother.createUser(repository, userDto);
+
+        const criteria = {
+            filters: [{
+                field: "name",
+                type: "and",
+                operator: "=",
+                value: userDto.name
+            }],
+            limit: 10,
+            offset: 0,
+            order: {
+                field: 'created_at',
+                direction: 'desc',
+            },
+        }
+
+        const SearchedUser = (await new UserSearcher(repository).execute(criteria)).toJson();
+        expect(SearchedUser.data[0].id).toBe(userDto.id)
+    })
 
 
 })
