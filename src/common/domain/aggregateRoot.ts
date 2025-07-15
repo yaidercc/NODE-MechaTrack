@@ -85,7 +85,6 @@ export abstract class AggregateRoot {
   }
 
   protected set deleted_at(value: string | null) {
-    console.log('🚨 SETTER CALLED WITH:', value);
     
     if (value === null || value === undefined) {
         this._deleted_at = null;
@@ -95,7 +94,6 @@ export abstract class AggregateRoot {
     this._deleted_at = new ValueObjectTimeStamp("deleted_at", value, true);
     if (value) {
         this._changedAttributes.deleted_at = this._deleted_at;
-        console.log("✅ ASSIGNED VO TO CHANGED ATTRIBUTES");
     }
 }
 }

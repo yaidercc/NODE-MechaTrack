@@ -21,7 +21,6 @@ export class UserDeleter {
             throw new NotFoundError("User")
         }
         user.delete(dto)
-        console.log(user.changedAttributes.deleted_at) // string
 
         await this.repository.delete(user)
     }

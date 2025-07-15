@@ -28,7 +28,7 @@ export class UserUpdater {
                 throw new AlreadyExistsError("User", `Email ${dto.email}, is already in use.`)
             }
         }
-        const user = new User(findUser.toJSON().data as UserInterface)
+        const user = new User(findUser.toJSON() as UserInterface)
 
         user.update(userDto);
 

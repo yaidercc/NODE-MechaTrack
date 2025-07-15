@@ -1,7 +1,7 @@
 import { NotFoundError } from "../../../common/errors";
 import { UserDomainFinder } from "../domain";
 import { KnexUserRepository } from "../infrastructure/KnexUserRepository";
-import { UserResponse } from "./userResponse";
+import { UserResponse } from "./responses/userResponse";
 
 export class UserFinder {
     private domainUserFinder: UserDomainFinder

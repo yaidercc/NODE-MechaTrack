@@ -14,7 +14,6 @@ export class ValueObjectTimeStamp {
         if (value) {
            
             this.ensureIsTimestamp(new Date(value.toString()));
-            console.log(typeof value)
             this._value = value
         }
     }

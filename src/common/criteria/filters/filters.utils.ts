@@ -14,7 +14,7 @@ export function validateFilter(filter: Filters) {
     throw new Error('Filter must have a value');
   }
 
-  if (!filter.type ||  !Object.values(FILTER_TYPE).includes(filter.operator as FILTER_TYPE)) {
+  if (!filter.type || !Object.values(FILTER_TYPE).includes(filter.type as FILTER_TYPE)) {
     throw new Error(`Invalid type: ${filter.type}`);
   }
 

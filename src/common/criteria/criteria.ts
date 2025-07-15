@@ -39,7 +39,7 @@ export class Criteria {
     }
 
 
-    convertToKnex(knexQuery: Knex, table = null) {
+    convertToKnex(knexQuery: Knex.QueryBuilder, table = null) {
 
         this._filters?.forEach((filter) => this.convertFiltersToKnex(knexQuery, filter))
 
@@ -59,7 +59,7 @@ export class Criteria {
 
     }
 
-    private convertFiltersToKnex(KnexQuery: Knex, filter: Filters) {
+    private convertFiltersToKnex(KnexQuery: Knex.QueryBuilder, filter: Filters) {
         this.validateLikeOrIlikeOperator(filter);
         this.validateInNotInOperator(filter);
         this.validateBetweenOperator(filter);
