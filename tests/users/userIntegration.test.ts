@@ -14,6 +14,10 @@ describe("User intregration tests", () => {
         await repository.connection.migrate.rollback(undefined, true);
     });
 
+    afterAll(async () => {
+        await repository.connection.destroy()
+    });
+
 
     it("should create a new user", async () => {
         const userDTO = UserMother.dto()

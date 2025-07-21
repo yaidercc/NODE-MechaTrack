@@ -34,6 +34,7 @@ jobs:
       DB_PASSWORD: jhondoe123
       DB_HOST: localhost
       DB_PORT: 5433
+      SECRET_KEY: 1234abcdef
     
     steps:
       - name: Checkout code # Clona el código
@@ -60,4 +61,4 @@ jobs:
           npm run migrate:start
 
       - name: Run tests
-        run: npm run test
+        run: npm run test:integration

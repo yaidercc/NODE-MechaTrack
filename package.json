@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "test": "npm run build && jest --watch",
+    "test:integration": "jest --testRegex=Integration\\\\.test\\\\.ts$ ",
     "build": "rimraf ./dist && tsc",
     "start": "npm run build && node dist/app.js",
     "migrate:latest": "knex --knexfile=./dist/config/database/Knexfile.js migrate:latest",
