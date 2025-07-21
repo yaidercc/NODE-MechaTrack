@@ -1,6 +1,6 @@
 import { KnexUserRepository } from "../../src/modules/users/infrastructure/KnexUserRepository";
 import { knexConfig } from "../knexfile";
-import { UserCreator, UserDeleter, UserFinder, UserSearcher, UserUpdater } from ".././../src/modules/users/application"
+import { UserCreator, UserDeleter, UserFinder, UserLogin, UserSearcher, UserUpdater } from ".././../src/modules/users/application"
 import { UserMother } from "./domain/userMother";
 import { AlreadyExistsError, NotFoundError } from "../../src/common/errors";
 
@@ -134,6 +134,24 @@ describe("User intregration tests", () => {
 
         const SearchedUser = (await new UserSearcher(repository).execute(criteria)).toJson();
         expect(SearchedUser.data[0].id).toBe(userDto.id)
+    })
+
+
+    it('Should login a user', async () => {
+        const userDTO = UserMother.dto();
+        await UserMother.createUser(repository, userDTO);
+
+        const loginUser = await new UserLogin(repository).execute(userDTO.email,"Str0ngP@ssword!")
+        
+        expect(loginUser.user).toMatchObject({
+            name: userDTO.name,
+            last_name: userDTO.last_name,
+            email: userDTO.email,
+            password: userDTO.password,
+            phone: userDTO.phone,
+            general_role_id: userDTO.general_role_id
+        })
+        expect(loginUser).toHaveProperty("token")
     })
 
 
