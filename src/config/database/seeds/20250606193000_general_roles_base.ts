@@ -1,5 +1,5 @@
 import { Knex } from "knex";
-import { GeneralRoles } from "src/common/constants";
+import { GeneralRoles } from "../../../common/constants";
 
 export async function seed(knex: Knex) {
     await knex("general_roles").del();
